@@ -1,0 +1,1 @@
+.NetCoreMVC_ArchitecturePattern
