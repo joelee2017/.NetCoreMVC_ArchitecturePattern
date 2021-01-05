@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MvcMovie.Data;
 using MvcMovie.Models;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,12 +9,10 @@ namespace MvcMovie.Controllers
 {
     public class MoviesController : Controller
     {
-        //private readonly MvcMovieContext _context;
-        private readonly MovieRepository _movieRepository;
+        private readonly IRepository<Movie> _movieRepository;
 
-        public MoviesController(/*MvcMovieContext context, */MovieRepository movieRepository)
+        public MoviesController(IRepository<Movie> movieRepository)
         {
-            //_context = context;
             _movieRepository = movieRepository;
         }
 
@@ -23,11 +20,11 @@ namespace MvcMovie.Controllers
         public async Task<IActionResult> Index(string movieGenre, string searchString)
         {
             // Use LINQ to get list of genres.
-            IQueryable<string> genreQuery = from m in _movieRepository.Movie
+            IQueryable<string> genreQuery = from m in _movieRepository.GetAll()
                                             orderby m.Genre
                                             select m.Genre;
 
-            var movies = from m in _movieRepository.Movie
+            var movies = from m in _movieRepository.GetAll()
                          select m;
 
             if (!string.IsNullOrEmpty(searchString))
@@ -63,7 +60,7 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var movie = await _movieRepository.Movie
+            var movie = await _movieRepository.GetAll()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
@@ -103,7 +100,7 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var movie = await _movieRepository.Movie.FindAsync(id);
+            var movie = await _movieRepository.FindAsync(id.Value);
             if (movie == null)
             {
                 return NotFound();
@@ -154,8 +151,7 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var movie = await _movieRepository.Movie
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var movie = await _movieRepository.FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
                 return NotFound();
@@ -169,15 +165,15 @@ namespace MvcMovie.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _movieRepository.Movie.FindAsync(id);
-            _movieRepository.Movie.Remove(movie);
+            var movie = await _movieRepository.FindAsync(id);
+            _movieRepository.Remove(movie);
             await _movieRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieExists(int id)
         {
-            return _movieRepository.Movie.Any(e => e.Id == id);
+            return _movieRepository.GetAll().Any(e => e.Id == id);
         }
     }
 }
