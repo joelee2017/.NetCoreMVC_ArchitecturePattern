@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Luster\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Luster\\.nuget\\packages"
+    ]
+  }
+}
