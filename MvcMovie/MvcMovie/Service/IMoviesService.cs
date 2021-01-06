@@ -8,5 +8,7 @@ namespace MvcMovie.Service
         public IQueryable<string> GenreQuery();
 
         public IQueryable<Movie> Search(string movieGenre, string searchString);
+
+        public IQueryable<Movie> GetAll();
     }
 }

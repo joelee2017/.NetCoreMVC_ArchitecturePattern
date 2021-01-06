@@ -1,4 +1,5 @@
-﻿using MvcMovie.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MvcMovie.Models;
 using MvcMovie.Repository;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace MvcMovie.Service
           
             return genreQuery.Distinct();
         }
+
+        public IQueryable<Movie> GetAll() => _movieRepository.GetAll();
 
         public IQueryable<Movie> Search(string movieGenre, string searchString)
         {
