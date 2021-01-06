@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcMovie.Data;
 using MvcMovie.Models;
+using MvcMovie.Repository;
+using MvcMovie.Service;
 
 namespace MvcMovie
 {
@@ -27,6 +29,7 @@ namespace MvcMovie
                 => options.UseSqlServer(Configuration.GetConnectionString("MvcMovieContext")));
 
             services.AddScoped<IRepository<Movie>,MovieRepository>();
+            services.AddScoped<IMoviesService, MoviesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

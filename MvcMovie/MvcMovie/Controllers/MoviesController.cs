@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcMovie.Models;
+using MvcMovie.Repository;
+using MvcMovie.Service;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,37 +12,39 @@ namespace MvcMovie.Controllers
     public class MoviesController : Controller
     {
         private readonly IRepository<Movie> _movieRepository;
+        private readonly IMoviesService _moviesService;
 
-        public MoviesController(IRepository<Movie> movieRepository)
+        public MoviesController(IRepository<Movie> movieRepository, IMoviesService moviesService)
         {
             _movieRepository = movieRepository;
+            _moviesService = moviesService;
         }
 
         // GET: Movies
         public async Task<IActionResult> Index(string movieGenre, string searchString)
         {
             // Use LINQ to get list of genres.
-            IQueryable<string> genreQuery = from m in _movieRepository.GetAll()
-                                            orderby m.Genre
-                                            select m.Genre;
+            //IQueryable<string> genreQuery = from m in _movieRepository.GetAll()
+            //                                orderby m.Genre
+            //                                select m.Genre;
 
-            var movies = from m in _movieRepository.GetAll()
-                         select m;
+            //var movies = from m in _movieRepository.GetAll()
+            //             select m;
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                movies = movies.Where(s => s.Title.Contains(searchString));
-            }
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    movies = movies.Where(s => s.Title.Contains(searchString));
+            //}
 
-            if (!string.IsNullOrEmpty(movieGenre))
-            {
-                movies = movies.Where(x => x.Genre == movieGenre);
-            }
+            //if (!string.IsNullOrEmpty(movieGenre))
+            //{
+            //    movies = movies.Where(x => x.Genre == movieGenre);
+            //}
 
             var movieGenreVM = new MovieGenreViewModel
             {
-                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-                Movies = await movies.ToListAsync()
+                Genres = new SelectList(await _moviesService.GenreQuery().ToListAsync()),
+                Movies = await _moviesService.Search(movieGenre, searchString).ToListAsync()
             };
 
             return View(movieGenreVM);
