@@ -4,10 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MvcMovie.Data;
-using MvcMovie.Models;
-using MvcMovie.Repository;
-using MvcMovie.Service;
+using Model.Data;
+using Model.Models;
+using Service.Service;
 
 namespace MvcMovie
 {
@@ -24,6 +23,8 @@ namespace MvcMovie
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // ¥[¤J AutoMapper
+   
 
             services.AddDbContext<MvcMovieContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("MvcMovieContext")));

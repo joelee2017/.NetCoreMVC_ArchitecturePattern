@@ -4,7 +4,7 @@ using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace MvcMovie.Repository
+namespace Model.Models
 {
     public interface IRepository<TEntity> where TEntity : class
     {

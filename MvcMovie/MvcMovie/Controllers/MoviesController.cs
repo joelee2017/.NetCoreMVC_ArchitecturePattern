@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MvcMovie.Models;
-using MvcMovie.Repository;
-using MvcMovie.Service;
+using Model.Models;
+using Service.Service;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MvcMovie.Models;
-using MvcMovie.Repository;
+﻿using Model.Models;
+using Nelibur.ObjectMapper;
 using System.Collections.Generic;
 using System.Linq;
+using static Models.Program;
 
-namespace MvcMovie.Service
+namespace Service.Service
 {
     public class MoviesService : IMoviesService
     {
@@ -22,13 +22,18 @@ namespace MvcMovie.Service
                                             orderby m.Genre
                                             select m.Genre;
 
-          
+
             return genreQuery.Distinct();
         }
 
-        public IQueryable<Movie> GetAll() => _movieRepository.GetAll();
+        public IQueryable<MovieViewModel> GetAll()
+        {
+            var tinyResult = TinyMapper.Map<IQueryable<Movie>, IQueryable<MovieViewModel>>(_movieRepository.GetAll());
 
-        public IQueryable<Movie> Search(string movieGenre, string searchString)
+            return tinyResult;
+        }
+
+        public IQueryable<MovieViewModel> Search(string movieGenre, string searchString)
         {
             var movies = from m in _movieRepository.GetAll()
                          select m;
@@ -43,7 +48,21 @@ namespace MvcMovie.Service
                 movies = movies.Where(x => x.Genre == movieGenre);
             }
 
-            return movies;
+
+            IQueryable<MovieViewModel> mappResult;
+            try
+            {
+                mappResult = TinyMapper.Map<IQueryable<MovieViewModel>>(movies);
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
+
+            
+
+            return mappResult;
         }
     }
 }

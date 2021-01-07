@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using MvcMovie.Data;
-using MvcMovie.Models;
+using Model.Data;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace MvcMovie.Repository
+namespace Model.Models
 {
     public class MovieRepository : IRepository<Movie>
     {
