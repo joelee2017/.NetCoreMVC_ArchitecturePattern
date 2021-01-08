@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Model.Data;
 using Model.Mapper;
 using System;
@@ -35,12 +34,26 @@ namespace Model.Models
         }
 
 
-        public EntityEntry<Movie> Add(Movie movie) => _mvcMovieContext.Add(movie);
+        public MovieViewModel Add(Movie movie)
+        {
+            var moive = _mvcMovieContext.Add(movie);
+            _mvcMovieContext.SaveChanges();
+            return moive.Entity.Map<Movie, MovieViewModel>(true);
+        }
 
-        public EntityEntry<Movie> Update(Movie movie) => _mvcMovieContext.Update(movie);
+        public MovieViewModel Update(Movie movie)
+        {
+            var moive = _mvcMovieContext.Update(movie);
+            _mvcMovieContext.SaveChanges();
+            return moive.Entity.Map<Movie, MovieViewModel>(true);
+        }
 
-        public EntityEntry<Movie> Remove(Movie movie) => _mvcMovieContext.Remove(movie);
+        public void Remove(int id)
+        {
+            var movie = _mvcMovieContext.Movie.Find(id);
+            _mvcMovieContext.Remove(movie);
 
-        public Task<int> SaveChangesAsync() => _mvcMovieContext.SaveChangesAsync();
+            _mvcMovieContext.SaveChanges();
+        }
     }
 }

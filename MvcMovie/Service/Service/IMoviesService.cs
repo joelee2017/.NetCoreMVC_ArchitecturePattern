@@ -10,5 +10,11 @@ namespace Service.Service
         public IEnumerable<MovieViewModel> Search(string movieGenre, string searchString);
 
         public IEnumerable<MovieViewModel> GetAll();
+
+        public MovieViewModel Add(Movie movie);
+
+        public MovieViewModel Update(Movie movie);
+
+        public void Remove(int id);
     }
 }

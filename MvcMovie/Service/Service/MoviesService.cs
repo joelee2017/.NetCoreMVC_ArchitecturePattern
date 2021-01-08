@@ -11,22 +11,22 @@ namespace Service.Service
         {
             _movieRepository = movieRepository;
         }
+        public IEnumerable<MovieViewModel> GetAll() => _movieRepository.GetAll();
+
+        public MovieViewModel Add(Movie movie) => _movieRepository.Add(movie);
+
+        public MovieViewModel Update(Movie movie) => _movieRepository.Update(movie);
+
+        public void Remove(int id) => _movieRepository.Remove(id);
 
         public IEnumerable<string> GenreQuery()
         {
             // Use LINQ to get list of genres.
             IEnumerable<string> genreQuery = from m in _movieRepository.GetAll()
-                                            orderby m.Genre
-                                            select m.Genre;
+                                             orderby m.Genre
+                                             select m.Genre;
 
             return genreQuery.Distinct();
-        }
-
-        public IEnumerable<MovieViewModel> GetAll()
-        {
-            var tinyResult = _movieRepository.GetAll();
-
-            return tinyResult;
         }
 
         public IEnumerable<MovieViewModel> Search(string movieGenre, string searchString)

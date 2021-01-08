@@ -66,12 +66,11 @@ namespace MvcMovie.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
+        public IActionResult Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
         {
             if (ModelState.IsValid)
             {
-                _movieRepository.Add(movie);
-                await _movieRepository.SaveChangesAsync();
+                _moviesService.Add(movie);
                 return RedirectToAction(nameof(Index));
             }
             return View(movie);
@@ -98,7 +97,7 @@ namespace MvcMovie.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
+        public IActionResult Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
         {
             if (id != movie.Id)
             {
@@ -110,7 +109,6 @@ namespace MvcMovie.Controllers
                 try
                 {
                     _movieRepository.Update(movie);
-                    await _movieRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -148,11 +146,9 @@ namespace MvcMovie.Controllers
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var movie = _movieRepository.Find(id);
-            _movieRepository.Remove(movie.Map<MovieViewModel,Movie>());
-            await _movieRepository.SaveChangesAsync();
+        public IActionResult DeleteConfirmed(int id)
+        {            
+            _movieRepository.Remove(id);    
             return RedirectToAction(nameof(Index));
         }
 

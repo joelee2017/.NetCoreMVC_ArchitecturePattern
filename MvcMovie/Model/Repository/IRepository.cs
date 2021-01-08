@@ -15,12 +15,10 @@ namespace Model.Models
 
         public TResultMdoel FirstOrDefault(Expression<Func<TEntity, bool>> func);
 
-        public EntityEntry<TEntity> Add(TEntity movie);
+        public TResultMdoel Add(TEntity movie);
 
-        public EntityEntry<TEntity> Update(TEntity movie);
+        public MovieViewModel Update(TEntity movie);
 
-        public EntityEntry<TEntity> Remove(TEntity movie);
-
-        public Task<int> SaveChangesAsync();
+        public void Remove(int id);
     }
 }
