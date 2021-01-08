@@ -1,14 +1,14 @@
 ﻿using Model.Models;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Service.Service
 {
     public interface IMoviesService
     {
-        public IQueryable<string> GenreQuery();
+        public IEnumerable<string> GenreQuery();
 
-        public IQueryable<MovieViewModel> Search(string movieGenre, string searchString);
+        public IEnumerable<MovieViewModel> Search(string movieGenre, string searchString);
 
-        public IQueryable<MovieViewModel> GetAll();
+        public IEnumerable<MovieViewModel> GetAll();
     }
 }

@@ -1,39 +1,35 @@
 ﻿using Model.Models;
-using Nelibur.ObjectMapper;
-using Service.Mapper;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace Service.Service
 {
     public class MoviesService : IMoviesService
     {
-        private readonly IRepository<Movie> _movieRepository;
+        private readonly IRepository<Movie, MovieViewModel> _movieRepository;
 
-        public MoviesService(IRepository<Movie> movieRepository)
+        public MoviesService(IRepository<Movie, MovieViewModel> movieRepository)
         {
             _movieRepository = movieRepository;
         }
 
-        public IQueryable<string> GenreQuery()
+        public IEnumerable<string> GenreQuery()
         {
             // Use LINQ to get list of genres.
-            IQueryable<string> genreQuery = from m in _movieRepository.GetAll()
+            IEnumerable<string> genreQuery = from m in _movieRepository.GetAll()
                                             orderby m.Genre
                                             select m.Genre;
-
 
             return genreQuery.Distinct();
         }
 
-        public IQueryable<MovieViewModel> GetAll()
+        public IEnumerable<MovieViewModel> GetAll()
         {
-            var tinyResult = _movieRepository.GetAll().Map<Movie, MovieViewModel>();
+            var tinyResult = _movieRepository.GetAll();
 
             return tinyResult;
         }
 
-        public IQueryable<MovieViewModel> Search(string movieGenre, string searchString)
+        public IEnumerable<MovieViewModel> Search(string movieGenre, string searchString)
         {
             var movies = from m in _movieRepository.GetAll()
                          select m;
@@ -48,11 +44,7 @@ namespace Service.Service
                 movies = movies.Where(x => x.Genre == movieGenre);
             }
 
-
-            IQueryable<MovieViewModel> mappResult;
-            mappResult = movies.Map<Movie,MovieViewModel>();
-
-            return mappResult;
+            return movies;
         }
     }
 }

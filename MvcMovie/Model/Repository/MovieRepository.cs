@@ -1,25 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Model.Data;
+using Model.Mapper;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Model.Models
 {
-    public class MovieRepository : IRepository<Movie>
+    public class MovieRepository : IRepository<Movie, MovieViewModel>
     {
         private readonly MvcMovieContext _mvcMovieContext;
 
         public MovieRepository(MvcMovieContext mvcMovieContext) => _mvcMovieContext = mvcMovieContext;
 
-        public DbSet<Movie> GetAll() => _mvcMovieContext.Movie;
+        public IEnumerable<MovieViewModel> GetAll() => _mvcMovieContext.Movie.Map<Movie, MovieViewModel>();
 
-        public ValueTask<Movie> FindAsync(int id) => _mvcMovieContext.Movie.FindAsync(id);
+        public MovieViewModel Find(int id)
+        {
+            var result = _mvcMovieContext.Movie.Find(id).Map<Movie, MovieViewModel>(true);
 
-        public Task<Movie> FirstOrDefaultAsync(Expression<Func<Movie, bool>> func) 
-            => _mvcMovieContext.Movie.FirstOrDefaultAsync(func);
-            
+            return result;
+        }
+
+        public MovieViewModel FirstOrDefault(Expression<Func<Movie, bool>> func)
+        {
+            var moive = _mvcMovieContext.Movie.FirstOrDefault(func);
+
+            var result = moive.Map<Movie, MovieViewModel>(true);
+
+            return result;
+        }
+
 
         public EntityEntry<Movie> Add(Movie movie) => _mvcMovieContext.Add(movie);
 

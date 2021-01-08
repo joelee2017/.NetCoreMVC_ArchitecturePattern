@@ -7,15 +7,7 @@ namespace Models
     {
         public static void Main(string[] args)
         {
-            MapperConfig.Register();
-        }
 
-        public class MapperConfig
-        {
-            public static void Register()
-            {
-                TinyMapper.Bind<Movie, MovieViewModel>();
-            }
         }
     }
 }

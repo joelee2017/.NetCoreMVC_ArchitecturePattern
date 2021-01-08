@@ -29,7 +29,7 @@ namespace MvcMovie
             services.AddDbContext<MvcMovieContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("MvcMovieContext")));
 
-            services.AddScoped<IRepository<Movie>,MovieRepository>();
+            services.AddScoped<IRepository<Movie, MovieViewModel>,MovieRepository>();
             services.AddScoped<IMoviesService, MoviesService>();
         }
 

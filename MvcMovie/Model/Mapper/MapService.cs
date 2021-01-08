@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Service.Mapper
+namespace Model.Mapper
 {
     /// <summary>
     /// 使用TinyMapper作為資料表Map工具
@@ -67,6 +67,19 @@ namespace Service.Mapper
                     paste = mapper.Map<IEnumerable<Copy>, IEnumerable<Paste>>(copyData);
                 }
             }
+
+            return paste;
+        }
+
+        public static IEnumerable<Paste> ProjectTo<Copy, Paste>(this IQueryable<Copy> copyData)
+        {
+            IEnumerable<Paste> paste = null;
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Copy, Paste>());
+
+            var mapper = config.CreateMapper();
+
+            paste = mapper.ProjectTo<Paste>(copyData);
 
             return paste;
         }

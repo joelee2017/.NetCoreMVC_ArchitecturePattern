@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Model.Models
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity, TResultMdoel> where TEntity : class
     {
-        public DbSet<TEntity> GetAll();
+        public IEnumerable<TResultMdoel> GetAll();
 
-        public ValueTask<TEntity> FindAsync(int id);
+        public TResultMdoel Find(int id);
 
-        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> func);
+        public TResultMdoel FirstOrDefault(Expression<Func<TEntity, bool>> func);
 
         public EntityEntry<TEntity> Add(TEntity movie);
 
