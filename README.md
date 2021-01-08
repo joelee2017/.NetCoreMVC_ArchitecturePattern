@@ -24,3 +24,5 @@
 
 五、抽象洩漏，將資料層與展現層使用model 切開
 
+六、新增Mapper工具針對IQueryable
+

@@ -1,8 +1,8 @@
 ﻿using Model.Models;
 using Nelibur.ObjectMapper;
+using Service.Mapper;
 using System.Collections.Generic;
 using System.Linq;
-using static Models.Program;
 
 namespace Service.Service
 {
@@ -28,7 +28,7 @@ namespace Service.Service
 
         public IQueryable<MovieViewModel> GetAll()
         {
-            var tinyResult = TinyMapper.Map<IQueryable<Movie>, IQueryable<MovieViewModel>>(_movieRepository.GetAll());
+            var tinyResult = _movieRepository.GetAll().Map<Movie, MovieViewModel>();
 
             return tinyResult;
         }
@@ -50,17 +50,7 @@ namespace Service.Service
 
 
             IQueryable<MovieViewModel> mappResult;
-            try
-            {
-                mappResult = TinyMapper.Map<IQueryable<MovieViewModel>>(movies);
-            }
-            catch (System.Exception ex)
-            {
-
-                throw;
-            }
-
-            
+            mappResult = movies.Map<Movie,MovieViewModel>();
 
             return mappResult;
         }
