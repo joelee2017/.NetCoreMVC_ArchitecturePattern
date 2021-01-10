@@ -30,3 +30,19 @@
 
 八、剩餘其它功能調整資料展現層、拔掉非同步
 
+九、大多數的系統可以切分成三個層面
+
+- Presentation => Controller
+- Domain => Service
+- Infrastructure => Repository
+- 層數超過這個數量都需要謹慎考慮
+
+十、DI Container 注入的共通概念
+
+- 在相依注入前，得先進行相依辨識及管理
+- 注入只是一個讓修改更方便的工具而已
+- 抽象 -> 實體對應
+- 抽象 -> Factory 對應
+- Scope
+- Composition Root
+
