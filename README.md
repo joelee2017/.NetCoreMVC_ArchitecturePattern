@@ -46,3 +46,4 @@
 - Scope
 - Composition Root
 
+十一、移動資料回傳層

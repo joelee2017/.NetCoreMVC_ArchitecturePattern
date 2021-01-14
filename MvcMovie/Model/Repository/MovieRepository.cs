@@ -1,51 +1,46 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Model.Data;
-using Model.Mapper;
+﻿using Model.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Model.Models
 {
-    public class MovieRepository : IRepository<Movie, MovieViewModel>
+    public class MovieRepository : IRepository<Movie>
     {
         private readonly MvcMovieContext _mvcMovieContext;
 
         public MovieRepository(MvcMovieContext mvcMovieContext) => _mvcMovieContext = mvcMovieContext;
 
-        public IEnumerable<MovieViewModel> GetAll() => _mvcMovieContext.Movie.Map<Movie, MovieViewModel>();
+        public IEnumerable<Movie> GetAll() => _mvcMovieContext.Movie;
 
-        public MovieViewModel Find(int id)
+        public Movie Find(int id)
         {
-            var result = _mvcMovieContext.Movie.Find(id).Map<Movie, MovieViewModel>(true);
+            var result = _mvcMovieContext.Movie.Find(id);
 
             return result;
         }
 
-        public MovieViewModel FirstOrDefault(Expression<Func<Movie, bool>> func)
+        public Movie FirstOrDefault(Expression<Func<Movie, bool>> func)
         {
             var moive = _mvcMovieContext.Movie.FirstOrDefault(func);
 
-            var result = moive.Map<Movie, MovieViewModel>(true);
-
-            return result;
+            return moive;
         }
 
 
-        public MovieViewModel Add(Movie movie)
+        public Movie Add(Movie movie)
         {
             var moive = _mvcMovieContext.Add(movie);
             _mvcMovieContext.SaveChanges();
-            return moive.Entity.Map<Movie, MovieViewModel>(true);
+            return moive.Entity;
         }
 
-        public MovieViewModel Update(Movie movie)
+        public Movie Update(Movie movie)
         {
             var moive = _mvcMovieContext.Update(movie);
             _mvcMovieContext.SaveChanges();
-            return moive.Entity.Map<Movie, MovieViewModel>(true);
+            return moive.Entity;
         }
 
         public void Remove(int id)

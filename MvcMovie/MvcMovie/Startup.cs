@@ -29,8 +29,9 @@ namespace MvcMovie
             services.AddDbContext<MvcMovieContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("MvcMovieContext")));
 
-            services.AddScoped<IRepository<Movie, MovieViewModel>,MovieRepository>();
+            services.AddScoped<IRepository<Movie>, MovieRepository>();
             services.AddScoped<IMoviesService, MoviesService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,21 +1,22 @@
-﻿using Model.Models;
+﻿using Model.Mapper;
+using Model.Models;
 using System.Collections.Generic;
 using System.Linq;
 namespace Service.Service
 {
     public class MoviesService : IMoviesService
     {
-        private readonly IRepository<Movie, MovieViewModel> _movieRepository;
+        private readonly IRepository<Movie> _movieRepository;
 
-        public MoviesService(IRepository<Movie, MovieViewModel> movieRepository)
+        public MoviesService(IRepository<Movie> movieRepository)
         {
             _movieRepository = movieRepository;
         }
-        public IEnumerable<MovieViewModel> GetAll() => _movieRepository.GetAll();
+        public IEnumerable<MovieViewModel> GetAll() => _movieRepository.GetAll().Map<Movie, MovieViewModel>(true);
 
-        public MovieViewModel Add(Movie movie) => _movieRepository.Add(movie);
+        public MovieViewModel Add(Movie movie) => _movieRepository.Add(movie).Map<Movie, MovieViewModel>(true);
 
-        public MovieViewModel Update(Movie movie) => _movieRepository.Update(movie);
+        public MovieViewModel Update(Movie movie) => _movieRepository.Update(movie).Map<Movie, MovieViewModel>(true);
 
         public void Remove(int id) => _movieRepository.Remove(id);
 
@@ -44,7 +45,9 @@ namespace Service.Service
                 movies = movies.Where(x => x.Genre == movieGenre);
             }
 
-            return movies;
+            var result = movies.Map<Movie, MovieViewModel>(true) ?? new List<MovieViewModel>();
+
+            return result;
         }
     }
 }

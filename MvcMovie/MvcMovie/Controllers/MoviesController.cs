@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Model.Mapper;
 using Model.Models;
 using Service.Service;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +12,10 @@ namespace MvcMovie.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly IRepository<Movie, MovieViewModel> _movieRepository;
+        private readonly IRepository<Movie> _movieRepository;
         private readonly IMoviesService _moviesService;
 
-        public MoviesController(IRepository<Movie, MovieViewModel> movieRepository, IMoviesService moviesService)
+        public MoviesController(IRepository<Movie> movieRepository, IMoviesService moviesService)
         {
             _movieRepository = movieRepository;
             _moviesService = moviesService;
