@@ -1,7 +1,10 @@
 ﻿using Model.Mapper;
 using Model.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+
 namespace Service.Service
 {
     public class MoviesService : IMoviesService
@@ -49,5 +52,7 @@ namespace Service.Service
 
             return result;
         }
+
+        public MovieViewModel Find(Expression<Func<Movie, bool>> func) => _movieRepository.FirstOrDefault(func).Map<Movie, MovieViewModel>(true);
     }
 }
