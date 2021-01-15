@@ -47,3 +47,7 @@
 - Composition Root
 
 十一、移動資料回傳層
+
+十二、Controller 只依賴 Service
+
+十二、Repository 、Service 改為用類別庫
