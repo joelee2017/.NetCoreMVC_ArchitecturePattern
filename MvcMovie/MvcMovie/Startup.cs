@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Model.Data;
 using Model.Models;
+using MvcMovie.Helper;
 using Service.Service;
 
 namespace MvcMovie
@@ -24,15 +25,17 @@ namespace MvcMovie
         {
             services.AddControllersWithViews();
             // 加入 AutoMapper
-   
 
-            services.AddDbContext<MvcMovieContext>(options 
+
+            services.AddDbContext<MvcMovieContext>(options
                 => options.UseSqlServer(Configuration.GetConnectionString("MvcMovieContext")));
 
-            services.AddScoped<IRepository<Movie>, MovieRepository>();
-            services.AddScoped<IMoviesService, MoviesService>();
-
+            //加入相關服務
+            services.InJectionByRepository();
+            services.InJectionByService();
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

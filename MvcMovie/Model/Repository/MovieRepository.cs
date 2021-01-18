@@ -1,10 +1,11 @@
 ﻿using Model.Data;
+using Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Model.Models
+namespace Model.Repository
 {
     public class MovieRepository : IRepository<Movie>
     {

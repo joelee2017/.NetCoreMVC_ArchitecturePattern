@@ -51,3 +51,5 @@
 十二、Controller 只依賴 Service
 
 十二、Repository 、Service 改為用類別庫
+
+十三、自動注入擴充建置中，尚未完成!
